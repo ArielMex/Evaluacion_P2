@@ -126,16 +126,16 @@ fun main() {
             println("------------------------------------------------------------------")
             println("Estadisticas del torneo")
 
-            var totalPuntosTorneo = 0
-            var mejorPuntuacion = -1
+            var totalGeneral = 0
+            var maxPuntos = -1
             var mejorParticipante = ""
-            var menorPuntuacion = 99999999
+            var minPuntos = 99999999
             var peorParticipante = ""
 
-            var leyenda = 0
-            var experto = 0
-            var competidor = 0
-            var novato = 0
+            var cantidadLeyenda = 0
+            var cantidadExperto = 0
+            var cantidadCompetidor = 0
+            var cantidadNovato = 0
 
             for (i in 0..participante.size - 1) {
                 var suma = 0
@@ -143,51 +143,46 @@ fun main() {
                     suma += puntos[i][j]
                 }
 
-                totalPuntosTorneo += suma
+                totalGeneral += suma
 
-                if (suma > mejorPuntuacion) {
-                    mejorPuntuacion = suma
+                if (suma > maxPuntos) {
+                    maxPuntos = suma
                     mejorParticipante = participante[i]
                 }
 
-                if (suma < menorPuntuacion && puntos[i].size > 0) {
-                    menorPuntuacion = suma
+                if (suma < minPuntos && puntos[i].size > 0) {
+                    minPuntos = suma
                     peorParticipante = participante[i]
                 }
 
-                val cat = categorias(suma)
-                when(cat) {
-                    "Leyenda" -> leyenda += 1
-                    "Experto" -> experto += 1
-                    "Competidor" -> competidor += 1
-                    "Novato" -> novato += 1
+                val categoriaActual = categorias(suma)
+                when(categoriaActual) {
+                    "Leyenda" -> cantidadLeyenda += 1
+                    "Experto" -> cantidadExperto += 1
+                    "Competidor" -> cantidadCompetidor += 1
+                    "Novato" -> cantidadNovato += 1
                 }
             }
 
-            val prom = promedios(totalPuntosTorneo, participante.size)
+            val promedioFinal = promedios(totalGeneral, participante.size)
 
             println("Cantidad total de participantes: ${participante.size}")
-            println("Total de puntos acumulados: $totalPuntosTorneo")
-            println("Promedio de puntos por participante: $prom")
-            println("Participante con mayor cantidad de puntos: $mejorParticipante ($mejorPuntuacion)")
+            println("Total de puntos acumulados: $totalGeneral")
+            println("Promedio de puntos por participante: $promedioFinal")
+            println("Participante con mayor cantidad de puntos: $mejorParticipante ($maxPuntos)")
 
-            if (menorPuntuacion == 99999999) {
+            if (minPuntos == 99999999) {
                 println("Participante con menor cantidad de puntos: $peorParticipante (0)")
             } else {
-                println("Participante con menor cantidad de puntos: $peorParticipante ($menorPuntuacion)")
+                println("Participante con menor cantidad de puntos: $peorParticipante ($minPuntos)")
             }
 
             println("\nParticipantes por cada categoria:")
-            println("Leyenda: $leyenda")
-            println("Experto: $experto")
-            println("Competidor: $competidor")
-            println("Novato: $novato")
-
-        } else if (opcion == 5) {
-            println("Finalizando y saliendo...")
-            break
-        } else {
-            println("Opcion no valida")
+            println("Leyenda: $cantidadLeyenda")
+            println("Experto: $cantidadExperto")
+            println("Competidor: $cantidadCompetidor")
+            println("Novato: $cantidadNovato")
         }
     }
 }
+
