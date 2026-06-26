@@ -125,3 +125,69 @@ fun main() {
         } else if (opcion == 4) {
             println("------------------------------------------------------------------")
             println("Estadisticas del torneo")
+
+            var totalPuntosTorneo = 0
+            var mejorPuntuacion = -1
+            var mejorParticipante = ""
+            var menorPuntuacion = 99999999
+            var peorParticipante = ""
+
+            var leyenda = 0
+            var experto = 0
+            var competidor = 0
+            var novato = 0
+
+            for (i in 0..participante.size - 1) {
+                var suma = 0
+                for (j in 0..puntos[i].size - 1) {
+                    suma += puntos[i][j]
+                }
+
+                totalPuntosTorneo += suma
+
+                if (suma > mejorPuntuacion) {
+                    mejorPuntuacion = suma
+                    mejorParticipante = participante[i]
+                }
+
+                if (suma < menorPuntuacion && puntos[i].size > 0) {
+                    menorPuntuacion = suma
+                    peorParticipante = participante[i]
+                }
+
+                val cat = categorias(suma)
+                when(cat) {
+                    "Leyenda" -> leyenda += 1
+                    "Experto" -> experto += 1
+                    "Competidor" -> competidor += 1
+                    "Novato" -> novato += 1
+                }
+            }
+
+            val prom = promedios(totalPuntosTorneo, participante.size)
+
+            println("Cantidad total de participantes: ${participante.size}")
+            println("Total de puntos acumulados: $totalPuntosTorneo")
+            println("Promedio de puntos por participante: $prom")
+            println("Participante con mayor cantidad de puntos: $mejorParticipante ($mejorPuntuacion)")
+
+            if (menorPuntuacion == 99999999) {
+                println("Participante con menor cantidad de puntos: $peorParticipante (0)")
+            } else {
+                println("Participante con menor cantidad de puntos: $peorParticipante ($menorPuntuacion)")
+            }
+
+            println("\nParticipantes por cada categoria:")
+            println("Leyenda: $leyenda")
+            println("Experto: $experto")
+            println("Competidor: $competidor")
+            println("Novato: $novato")
+
+        } else if (opcion == 5) {
+            println("Finalizando y saliendo...")
+            break
+        } else {
+            println("Opcion no valida")
+        }
+    }
+}
